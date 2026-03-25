@@ -1,3 +1,5 @@
+from time import sleep
+import os 
 def rules():
     print("This is your contact book. Write numbers 1-6 to fo : ")
     print("1. Add contact")
@@ -5,7 +7,7 @@ def rules():
     print("3. Edit contact")
     print("4. Delete contact")
     print("5. Delete All contact")
-    print("6. Exit",)
+    print("6. Exit")
 def add_contact(contact_book):
     name = input("Write contact name: ")
     if name in contact_book:
@@ -22,10 +24,10 @@ def add_contact(contact_book):
     }
     print("Contact was succesfully added to your contact book!")
 def view_contact(contact_book):
-    name = input("Write contact name:")
     if contact_book == {}:
         print("Contact book is empty!")
         return
+    name = input("Write contact name:")
     if name not in contact_book:
         print("This name does not exists in your contact book!")
         return
@@ -34,13 +36,16 @@ def view_contact(contact_book):
     print("Email:", contact_book[name]["Email"])
     print("Address:", contact_book[name]["Address"])
 def edit_contact(contact_book):
+    if contact_book == {}:
+        print("Contact book is empty!")
+        return
     name = input("Write name what you want to edit: ")
     if name not in contact_book:
         print("This name does not exists in your contact book!")
         return
     number = input("Write number: ")
     email = input("Write email of contact(you can skip this): ")
-    address = input("Write adress of contact(you can skip this): ")
+    address = input("Write address of contact(you can skip this): ")
     contact_book[name] = {
     "Name": name,
     "Number": number,
@@ -49,6 +54,9 @@ def edit_contact(contact_book):
     }
     print("Contact has been edited!")
 def delete_contact(contact_book):
+    if contact_book == {}:
+        print("Contact book is empty!")
+        return
     name = input("Write name what you want to delete:")
     if name not in contact_book:
         print("This name does not exists in your contact book!")
@@ -63,20 +71,35 @@ def delete_all_contact(contact_book):
     print("All contacts has been deleted!")
 session = True
 contact_book = {}
+count = 0
 while session == True:
+    sleep(1)
     rules()
     choice = int(input("Write number from 1 till 6: "))
     if choice < 1 or choice > 6:
+        os.system('cls')
         print("Incorrect, please write number from 1 to 6.")
-    if choice == 1:
+    elif choice == 1:
+        os.system('cls')
         add_contact(contact_book)
-    if choice == 2:
+        count += 1
+    elif choice == 2:
+        os.system('cls')
         view_contact(contact_book)
-    if choice == 3:
+        count += 1
+    elif choice == 3:
+        os.system('cls')
         edit_contact(contact_book)
-    if choice == 4:
+        count += 1
+    elif choice == 4:
+        os.system('cls')
         delete_contact(contact_book)
-    if choice == 5:
+        count += 1
+    elif choice == 5:
+        os.system('cls')
         delete_all_contact(contact_book)
-    if choice == 6:
+        count += 1
+    elif choice == 6:
         session = False
+        print("Good bye!")
+        
