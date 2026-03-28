@@ -1,7 +1,11 @@
 from time import sleep
 import os 
+import json
+def save():
+    with open("contact_book.json", "w") as file:
+        json.dump(contact_book, file)
 def rules():
-    print("This is your contact book. Write numbers 1-6 to fo : ")
+    print("This is your contact book. Write numbers 1-6 to use functions : ")
     print("1. Add contact")
     print("2. View contact")
     print("3. Edit contact")
@@ -22,11 +26,14 @@ def add_contact(contact_book):
     "Email": email,
     "Address":address
     }
+    save()
     print("Contact was succesfully added to your contact book!")
 def view_contact(contact_book):
     if contact_book == {}:
         print("Contact book is empty!")
         return
+    for name in contact_book:
+        print("Name:", name)
     name = input("Write contact name:")
     if name not in contact_book:
         print("This name does not exists in your contact book!")
@@ -39,6 +46,8 @@ def edit_contact(contact_book):
     if contact_book == {}:
         print("Contact book is empty!")
         return
+    for name in contact_book:
+        print("Name:", name)
     name = input("Write name what you want to edit: ")
     if name not in contact_book:
         print("This name does not exists in your contact book!")
@@ -52,30 +61,44 @@ def edit_contact(contact_book):
     "Email": email,
     "Address":address
     }
+    save()
     print("Contact has been edited!")
 def delete_contact(contact_book):
     if contact_book == {}:
         print("Contact book is empty!")
         return
+    for name in contact_book:
+        print("Name:", name)
     name = input("Write name what you want to delete:")
     if name not in contact_book:
         print("This name does not exists in your contact book!")
         return
     del contact_book[name]
+    save()
     print("Contact has been deleted!")
 def delete_all_contact(contact_book):
     if contact_book == {}:
         print("Contact book already empty!")
         return
     contact_book.clear()
+    save()
     print("All contacts has been deleted!")
+try:
+    with open("contact_book.json", "r") as file:
+        contact_book = json.load(file)
+except(FileNotFoundError):
+    contact_book = {}
 session = True
-contact_book = {}
 count = 0
 while session == True:
     sleep(1)
     rules()
-    choice = int(input("Write number from 1 till 6: "))
+    try:
+        choice = int(input("Write number from 1 till 6: "))
+    except ValueError:
+        os.system('cls')
+        print("Invalid input.Please write a number from 1 to 6.")
+        continue
     if choice < 1 or choice > 6:
         os.system('cls')
         print("Incorrect, please write number from 1 to 6.")
@@ -102,4 +125,3 @@ while session == True:
     elif choice == 6:
         session = False
         print("Good bye!")
-        
